@@ -1,7 +1,10 @@
 package com.bee.controller;
 
-import com.bee.model.Ship;
+import com.bee.model.Shipwreck;
 import com.bee.model.ShipStub;
+import com.bee.repository.ShipRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,28 +13,34 @@ import java.util.List;
 @RequestMapping("api/v1/")
 public class ShipController {
 
+    @Autowired
+    private ShipRepository shipRepository;
+
     @RequestMapping(value = "shipwrecks", method = RequestMethod.GET)
-    public List<Ship> getShipList() {
-        return ShipStub.list();
+    public List<Shipwreck> getShipList() {
+        return shipRepository.findAll();
     }
 
     @RequestMapping(value = "shipwrecks", method = RequestMethod.POST)
-    public Ship create(@RequestBody Ship ship) {
-        return ShipStub.create(ship);
+    public Shipwreck create(@RequestBody Shipwreck shipWreck) {
+        return shipRepository.saveAndFlush(shipWreck);
     }
 
     @RequestMapping(value = "shipwrecks/{id}", method = RequestMethod.GET)
-    public Ship get(@PathVariable Long id) {
-        return ShipStub.get(id);
+    public Shipwreck get(@PathVariable Long id) {
+        return shipRepository.findOne(id);
     }
 
     @RequestMapping(value = "shipwrecks/{id}", method = RequestMethod.PUT)
-    public Ship update(@PathVariable Long id, @RequestBody Ship ship) {
-        return ShipStub.update(id, ship);
+    public Shipwreck update(@PathVariable Long id, @RequestBody Shipwreck shipWreck) {
+        Shipwreck existingShipwreck = shipRepository.findOne(id);
+        BeanUtils.copyProperties(shipWreck, existingShipwreck);
+        return shipRepository.saveAndFlush(shipWreck);
     }
 
     @RequestMapping(value = "shipwrecks/{id}", method = RequestMethod.DELETE)
-    public Ship update(@PathVariable Long id) {
-        return ShipStub.delete(id);
+    public void delete(@PathVariable Long id) {
+        Shipwreck existingShip = shipRepository.findOne(id);
+        shipRepository.delete(existingShip);
     }
 }

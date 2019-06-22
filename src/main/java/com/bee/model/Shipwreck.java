@@ -1,26 +1,34 @@
 package com.bee.model;
 
-public class Ship {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Shipwreck {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     private String condition;
     private Integer depth;
     private Double latitude;
-    private Double longitute;
+    private Double longitude;
     private Integer yearDiscovered;
 
-    public Ship() {
+    public Shipwreck() {
     }
 
-    public Ship(Long id, String name, String description, String condition, Integer depth, Double latitude, Double longitute, Integer yearDiscovered) {
+    public Shipwreck(Long id, String name, String description, String condition, Integer depth, Double latitude, Double longitude, Integer yearDiscovered) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.condition = condition;
         this.depth = depth;
         this.latitude = latitude;
-        this.longitute = longitute;
+        this.longitude = longitude;
         this.yearDiscovered = yearDiscovered;
     }
 
@@ -72,12 +80,12 @@ public class Ship {
         this.latitude = latitude;
     }
 
-    public Double getLongitute() {
-        return longitute;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setLongitute(Double longitute) {
-        this.longitute = longitute;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Integer getYearDiscovered() {
